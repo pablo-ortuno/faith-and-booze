@@ -1,0 +1,562 @@
+year,state,democrat_votes,republican_votes,office
+1976,Alabama,659170,504070,democrat
+1976,Alaska,44058,71555,republican
+1976,Arizona,295602,418642,republican
+1976,Arkansas,498604,267903,democrat
+1976,California,3742284,3882244,republican
+1976,Colorado,460801,584278,republican
+1976,Connecticut,647895,719261,republican
+1976,Delaware,122461,109780,democrat
+1976,District of Columbia,137818,27873,democrat
+1976,Florida,1636000,1469531,democrat
+1976,Georgia,979409,483743,democrat
+1976,Hawaii,147375,140003,democrat
+1976,Idaho,126549,204151,republican
+1976,Illinois,2271295,2364269,republican
+1976,Indiana,1014714,1183958,republican
+1976,Iowa,619931,632864,republican
+1976,Kansas,430421,502752,republican
+1976,Kentucky,615717,531852,democrat
+1976,Louisiana,661365,587446,democrat
+1976,Maine,232279,236320,republican
+1976,Maryland,759612,672661,democrat
+1976,Massachusetts,1429475,1030276,democrat
+1976,Michigan,1696714,1893742,republican
+1976,Minnesota,1070440,819395,democrat
+1976,Mississippi,381329,366846,democrat
+1976,Missouri,998387,927443,democrat
+1976,Montana,149259,173703,republican
+1976,Nebraska,233293,359219,republican
+1976,Nevada,92479,101273,republican
+1976,New Hampshire,147645,185935,republican
+1976,New Jersey,1444653,1509688,republican
+1976,New Mexico,201148,211419,republican
+1976,New York,3244165,2825913,democrat
+1976,North Carolina,927365,741960,democrat
+1976,North Dakota,136078,153684,republican
+1976,Ohio,2009959,2000626,democrat
+1976,Oklahoma,532442,545708,republican
+1976,Oregon,490407,492120,republican
+1976,Pennsylvania,2328677,2205604,democrat
+1976,Rhode Island,227636,181249,democrat
+1976,South Carolina,450807,346149,democrat
+1976,South Dakota,147068,151505,republican
+1976,Tennessee,825879,633969,democrat
+1976,Texas,2082319,1953300,democrat
+1976,Utah,182110,337908,republican
+1976,Vermont,77798,100387,republican
+1976,Virginia,813896,836554,republican
+1976,Washington,717323,777732,republican
+1976,West Virginia,435864,314726,democrat
+1976,Wisconsin,1040232,1004987,democrat
+1976,Wyoming,62239,92717,republican
+1980,Alabama,636730,654192,republican
+1980,Alaska,41842,86112,republican
+1980,Arizona,246843,529688,republican
+1980,Arkansas,398041,403164,republican
+1980,California,3082943,4522994,republican
+1980,Colorado,368009,652264,republican
+1980,Connecticut,541732,677210,republican
+1980,Delaware,105754,111252,republican
+1980,District of Columbia,130231,23313,democrat
+1980,Florida,1419475,2046951,republican
+1980,Georgia,890955,654168,democrat
+1980,Hawaii,135879,130112,democrat
+1980,Idaho,110192,290699,republican
+1980,Illinois,1981413,2358049,republican
+1980,Indiana,844197,1255656,republican
+1980,Iowa,508672,676026,republican
+1980,Kansas,326150,566812,republican
+1980,Kentucky,617417,635274,republican
+1980,Louisiana,708453,792853,republican
+1980,Maine,220974,238522,republican
+1980,Maryland,726161,680606,democrat
+1980,Massachusetts,1053802,1057631,republican
+1980,Michigan,1661532,1915225,republican
+1980,Minnesota,954173,873268,democrat
+1980,Mississippi,429281,441089,republican
+1980,Missouri,931182,1074181,republican
+1980,Montana,118032,206814,republican
+1980,Nebraska,166424,419214,republican
+1980,Nevada,66666,155017,republican
+1980,New Hampshire,108864,221705,republican
+1980,New Jersey,1147364,1546557,republican
+1980,New Mexico,167826,250779,republican
+1980,New York,2728372,2637700,democrat
+1980,North Carolina,875635,915018,republican
+1980,North Dakota,79189,193695,republican
+1980,Ohio,1752414,2206545,republican
+1980,Oklahoma,402026,695570,republican
+1980,Oregon,456890,571044,republican
+1980,Pennsylvania,1937540,2261872,republican
+1980,Rhode Island,198342,154793,democrat
+1980,South Carolina,428220,439277,republican
+1980,South Dakota,103855,198343,republican
+1980,Tennessee,783051,787761,republican
+1980,Texas,1881147,2510705,republican
+1980,Utah,124266,439687,republican
+1980,Vermont,81952,94628,republican
+1980,Virginia,752174,989609,republican
+1980,Washington,650193,865244,republican
+1980,West Virginia,367462,334206,democrat
+1980,Wisconsin,981584,1088845,republican
+1980,Wyoming,49427,110700,republican
+1984,Alabama,551899,872849,republican
+1984,Alaska,62007,138377,republican
+1984,Arizona,333854,681416,republican
+1984,Arkansas,338646,534774,republican
+1984,California,3922519,5467009,republican
+1984,Colorado,454975,821817,republican
+1984,Connecticut,569597,890877,republican
+1984,Delaware,101656,152190,republican
+1984,District of Columbia,180408,29009,democrat
+1984,Florida,1448816,2730350,republican
+1984,Georgia,706628,1068722,republican
+1984,Hawaii,147154,185050,republican
+1984,Idaho,108510,297523,republican
+1984,Illinois,2086499,2707103,republican
+1984,Indiana,841481,1377230,republican
+1984,Iowa,605620,703088,republican
+1984,Kansas,333149,677296,republican
+1984,Kentucky,539539,821702,republican
+1984,Louisiana,651586,1037299,republican
+1984,Maine,214515,336500,republican
+1984,Maryland,787935,879918,republican
+1984,Massachusetts,1239606,1310936,republican
+1984,Michigan,1529638,2251571,republican
+1984,Minnesota,1036364,1032603,democrat
+1984,Mississippi,352192,582377,republican
+1984,Missouri,848583,1274188,republican
+1984,Montana,146742,232450,republican
+1984,Nebraska,187866,460054,republican
+1984,Nevada,91655,188770,republican
+1984,New Hampshire,120347,267050,republican
+1984,New Jersey,1261323,1933630,republican
+1984,New Mexico,201769,307101,republican
+1984,New York,3001285,3376519,republican
+1984,North Carolina,824287,1346481,republican
+1984,North Dakota,104429,200336,republican
+1984,Ohio,1825440,2678559,republican
+1984,Oklahoma,385080,861530,republican
+1984,Oregon,536479,685700,republican
+1984,Pennsylvania,2228131,2584323,republican
+1984,Rhode Island,197106,212080,republican
+1984,South Carolina,344459,615539,republican
+1984,South Dakota,116113,200267,republican
+1984,Tennessee,711714,990212,republican
+1984,Texas,1949276,3433428,republican
+1984,Utah,155369,469105,republican
+1984,Vermont,95730,135865,republican
+1984,Virginia,796250,1337078,republican
+1984,Washington,798352,1051670,republican
+1984,West Virginia,328125,405483,republican
+1984,Wisconsin,995740,1198584,republican
+1984,Wyoming,53370,133241,republican
+1988,Alabama,549506,815576,republican
+1988,Alaska,72584,119251,republican
+1988,Arizona,454029,702541,republican
+1988,Arkansas,349237,466578,republican
+1988,California,4702233,5054917,republican
+1988,Colorado,621453,728177,republican
+1988,Connecticut,676584,750241,republican
+1988,Delaware,108647,139639,republican
+1988,District of Columbia,159407,27590,democrat
+1988,Florida,1656701,2618885,republican
+1988,Georgia,714792,1081331,republican
+1988,Hawaii,192364,158625,democrat
+1988,Idaho,147272,253881,republican
+1988,Illinois,2215940,2310939,republican
+1988,Indiana,860643,1297763,republican
+1988,Iowa,670557,545355,democrat
+1988,Kansas,422636,554049,republican
+1988,Kentucky,580368,734281,republican
+1988,Louisiana,717460,883702,republican
+1988,Maine,243569,307131,republican
+1988,Maryland,826304,876167,republican
+1988,Massachusetts,1401415,1194635,democrat
+1988,Michigan,1675783,1965486,republican
+1988,Minnesota,1109471,962337,democrat
+1988,Mississippi,363921,557890,republican
+1988,Missouri,1001619,1084953,republican
+1988,Montana,168936,190412,republican
+1988,Nebraska,259235,397956,republican
+1988,Nevada,132738,206040,republican
+1988,New Hampshire,163696,281537,republican
+1988,New Jersey,1320352,1743192,republican
+1988,New Mexico,244497,270341,republican
+1988,New York,3255487,2838414,democrat
+1988,North Carolina,890167,1237258,republican
+1988,North Dakota,127739,166559,republican
+1988,Ohio,1939629,2416549,republican
+1988,Oklahoma,483423,678367,republican
+1988,Oregon,616206,560126,democrat
+1988,Pennsylvania,2194944,2300087,republican
+1988,Rhode Island,225123,177761,democrat
+1988,South Carolina,370554,606443,republican
+1988,South Dakota,145560,165415,republican
+1988,Tennessee,679794,947233,republican
+1988,Texas,2352748,3036829,republican
+1988,Utah,207343,428442,republican
+1988,Vermont,115775,124331,republican
+1988,Virginia,859799,1309162,republican
+1988,Washington,933516,903835,democrat
+1988,West Virginia,341016,310065,democrat
+1988,Wisconsin,1126794,1047499,democrat
+1988,Wyoming,67113,106867,republican
+1992,Alabama,690080,804283,republican
+1992,Alaska,78294,102000,republican
+1992,Arizona,543050,572086,republican
+1992,Arkansas,505823,337324,democrat
+1992,California,5121325,3630574,democrat
+1992,Colorado,629681,562850,democrat
+1992,Connecticut,682318,578313,democrat
+1992,Delaware,126054,102313,democrat
+1992,District of Columbia,192619,20698,democrat
+1992,Florida,2071698,2173310,republican
+1992,Georgia,1008966,995252,democrat
+1992,Hawaii,179310,136822,democrat
+1992,Idaho,137013,202645,republican
+1992,Illinois,2453350,1734096,democrat
+1992,Indiana,848420,989375,republican
+1992,Iowa,586353,504891,democrat
+1992,Kansas,390434,449951,republican
+1992,Kentucky,665104,617178,democrat
+1992,Louisiana,815971,733386,democrat
+1992,Maine,263420,206504,democrat
+1992,Maryland,988571,707094,democrat
+1992,Massachusetts,1318639,805039,democrat
+1992,Michigan,1871182,1554940,democrat
+1992,Minnesota,1020997,747841,democrat
+1992,Mississippi,400258,487793,republican
+1992,Missouri,1053873,811159,democrat
+1992,Montana,154507,144207,democrat
+1992,Nebraska,216864,343678,republican
+1992,Nevada,189148,175828,democrat
+1992,New Hampshire,209040,202484,democrat
+1992,New Jersey,1436206,1356865,democrat
+1992,New Mexico,261617,212824,democrat
+1992,New York,3346894,2041690,democrat
+1992,North Carolina,1114042,1134661,republican
+1992,North Dakota,99168,136244,republican
+1992,Ohio,1984942,1894310,democrat
+1992,Oklahoma,473066,592929,republican
+1992,Oregon,621314,475757,democrat
+1992,Pennsylvania,2239164,1791841,democrat
+1992,Rhode Island,213299,131601,democrat
+1992,South Carolina,525514,577507,republican
+1992,South Dakota,124888,136718,republican
+1992,Tennessee,933521,841300,democrat
+1992,Texas,2281815,2496071,republican
+1992,Utah,183429,322632,republican
+1992,Vermont,133592,88122,democrat
+1992,Virginia,1038650,1150517,republican
+1992,Washington,993037,731234,democrat
+1992,West Virginia,331001,241974,democrat
+1992,Wisconsin,1041066,930855,democrat
+1992,Wyoming,68160,79347,republican
+1996,Alabama,662165,769044,republican
+1996,Alaska,80380,122746,republican
+1996,Arizona,653288,622073,democrat
+1996,Arkansas,475171,325416,democrat
+1996,California,5119835,3828381,democrat
+1996,Colorado,671152,691848,republican
+1996,Connecticut,735740,483109,democrat
+1996,Delaware,140355,99062,democrat
+1996,District of Columbia,158220,17339,democrat
+1996,Florida,2546870,2244536,democrat
+1996,Georgia,1053849,1080843,republican
+1996,Hawaii,205012,113943,democrat
+1996,Idaho,165443,256595,republican
+1996,Illinois,2341744,1587021,democrat
+1996,Indiana,887424,1006693,republican
+1996,Iowa,620258,492644,democrat
+1996,Kansas,387659,583245,republican
+1996,Kentucky,636614,623283,democrat
+1996,Louisiana,927837,712586,democrat
+1996,Maine,312788,186378,democrat
+1996,Maryland,966207,681530,democrat
+1996,Massachusetts,1571509,718058,democrat
+1996,Michigan,1989653,1481212,democrat
+1996,Minnesota,1120380,766395,democrat
+1996,Mississippi,394022,439838,republican
+1996,Missouri,1025935,890016,democrat
+1996,Montana,167922,179652,republican
+1996,Nebraska,236761,363467,republican
+1996,Nevada,203974,199244,democrat
+1996,New Hampshire,246166,196486,democrat
+1996,New Jersey,1652361,1103099,democrat
+1996,New Mexico,273495,232751,democrat
+1996,New York,3649630,1738707,democrat
+1996,North Carolina,1107849,1225938,republican
+1996,North Dakota,106905,125050,republican
+1996,Ohio,2148222,1859883,democrat
+1996,Oklahoma,488105,582315,republican
+1996,Oregon,649641,538152,democrat
+1996,Pennsylvania,2215819,1801169,democrat
+1996,Rhode Island,233050,104683,democrat
+1996,South Carolina,506152,573339,republican
+1996,South Dakota,139333,150543,republican
+1996,Tennessee,909146,863530,democrat
+1996,Texas,2459683,2736167,republican
+1996,Utah,221633,361911,republican
+1996,Vermont,137894,80352,democrat
+1996,Virginia,1091060,1138350,republican
+1996,Washington,1123323,840712,democrat
+1996,West Virginia,327812,233946,democrat
+1996,Wisconsin,1071971,845029,democrat
+1996,Wyoming,77934,105388,republican
+2000,Alabama,692611,941173,republican
+2000,Alaska,79004,167398,republican
+2000,Arizona,685341,781652,republican
+2000,Arkansas,422768,472940,republican
+2000,California,5861203,4567429,democrat
+2000,Colorado,738227,883748,republican
+2000,Connecticut,816015,561094,democrat
+2000,Delaware,180068,137288,democrat
+2000,District of Columbia,171923,18073,democrat
+2000,Florida,2912253,2912790,republican
+2000,Georgia,1116230,1419720,republican
+2000,Hawaii,205286,137845,democrat
+2000,Idaho,138637,336937,republican
+2000,Illinois,2589026,2019421,democrat
+2000,Indiana,901980,1245836,republican
+2000,Iowa,638517,634373,democrat
+2000,Kansas,399276,622332,republican
+2000,Kentucky,638923,872520,republican
+2000,Louisiana,792344,927871,republican
+2000,Maine,319951,286616,democrat
+2000,Maryland,1144008,813827,democrat
+2000,Massachusetts,1616487,878502,democrat
+2000,Michigan,2170418,1953139,democrat
+2000,Minnesota,1168266,1109659,democrat
+2000,Mississippi,404614,572844,republican
+2000,Missouri,1111138,1189924,republican
+2000,Montana,137126,240178,republican
+2000,Nebraska,231780,433862,republican
+2000,Nevada,279978,301575,republican
+2000,New Hampshire,266348,273559,republican
+2000,New Jersey,1788850,1284173,democrat
+2000,New Mexico,286783,286417,democrat
+2000,New York,3942215,2258577,democrat
+2000,North Carolina,1257692,1631163,republican
+2000,North Dakota,95284,174852,republican
+2000,Ohio,2183628,2350363,republican
+2000,Oklahoma,474276,744337,republican
+2000,Oregon,720342,713577,democrat
+2000,Pennsylvania,2485967,2281127,democrat
+2000,Rhode Island,249508,130555,democrat
+2000,South Carolina,566037,786892,republican
+2000,South Dakota,118804,190700,republican
+2000,Tennessee,981720,1061949,republican
+2000,Texas,2433746,3799639,republican
+2000,Utah,203053,515096,republican
+2000,Vermont,149022,119775,democrat
+2000,Virginia,1217290,1437490,republican
+2000,Washington,1247652,1108864,democrat
+2000,West Virginia,295497,336475,republican
+2000,Wisconsin,1242987,1237279,democrat
+2000,Wyoming,60481,147947,republican
+2004,Alabama,693933,1176394,republican
+2004,Alaska,111025,190889,republican
+2004,Arizona,893524,1104294,republican
+2004,Arkansas,469953,572898,republican
+2004,California,6745485,5509826,democrat
+2004,Colorado,1001732,1101255,republican
+2004,Connecticut,857488,693826,democrat
+2004,Delaware,200152,171660,democrat
+2004,District of Columbia,202970,21256,democrat
+2004,Florida,3583544,3964522,republican
+2004,Georgia,1366149,1914254,republican
+2004,Hawaii,231708,194191,democrat
+2004,Idaho,181098,409235,republican
+2004,Illinois,2891550,2345946,democrat
+2004,Indiana,969011,1479438,republican
+2004,Iowa,741898,751957,republican
+2004,Kansas,434993,736456,republican
+2004,Kentucky,712733,1069439,republican
+2004,Louisiana,820299,1102169,republican
+2004,Maine,396842,330201,democrat
+2004,Maryland,1334493,1024703,democrat
+2004,Massachusetts,1803800,1071109,democrat
+2004,Michigan,2479183,2313746,democrat
+2004,Minnesota,1445014,1346695,democrat
+2004,Mississippi,457766,672660,republican
+2004,Missouri,1259171,1455713,republican
+2004,Montana,173710,266063,republican
+2004,Nebraska,254328,512814,republican
+2004,Nevada,397190,418690,republican
+2004,New Hampshire,340511,331237,democrat
+2004,New Jersey,1911430,1670003,democrat
+2004,New Mexico,370942,376930,republican
+2004,New York,4180755,2806993,democrat
+2004,North Carolina,1525849,1961166,republican
+2004,North Dakota,111052,196651,republican
+2004,Ohio,2741165,2859764,republican
+2004,Oklahoma,503966,959792,republican
+2004,Oregon,943163,866831,democrat
+2004,Pennsylvania,2938095,2793847,democrat
+2004,Rhode Island,259760,169046,democrat
+2004,South Carolina,661669,937974,republican
+2004,South Dakota,149244,232584,republican
+2004,Tennessee,1036477,1384375,republican
+2004,Texas,2832704,4526917,republican
+2004,Utah,241199,663742,republican
+2004,Vermont,184067,121180,democrat
+2004,Virginia,1454742,1716959,republican
+2004,Washington,1510201,1304894,democrat
+2004,West Virginia,326541,423778,republican
+2004,Wisconsin,1489504,1478120,democrat
+2004,Wyoming,70776,167629,republican
+2008,Alabama,813479,1266546,republican
+2008,Alaska,123594,193841,republican
+2008,Arizona,1034707,1230111,republican
+2008,Arkansas,422310,638017,republican
+2008,California,8274473,5011781,democrat
+2008,Colorado,1288576,1073589,democrat
+2008,Connecticut,997772,629428,democrat
+2008,Delaware,255459,152374,democrat
+2008,District of Columbia,245800,17367,democrat
+2008,Florida,4282074,4045624,democrat
+2008,Georgia,1844123,2048759,republican
+2008,Hawaii,325871,120566,democrat
+2008,Idaho,236440,403012,republican
+2008,Illinois,3419348,2031179,democrat
+2008,Indiana,1374039,1345648,democrat
+2008,Iowa,828940,682379,democrat
+2008,Kansas,514765,699655,republican
+2008,Kentucky,751985,1048462,republican
+2008,Louisiana,782989,1148275,republican
+2008,Maine,421923,295273,democrat
+2008,Maryland,1629467,959862,democrat
+2008,Massachusetts,1904097,1108854,democrat
+2008,Michigan,2872579,2048639,democrat
+2008,Minnesota,1573354,1275409,democrat
+2008,Mississippi,554662,724597,republican
+2008,Missouri,1441911,1445814,republican
+2008,Montana,231667,242763,republican
+2008,Nebraska,333319,452979,republican
+2008,Nevada,533736,412827,democrat
+2008,New Hampshire,384826,316534,democrat
+2008,New Jersey,2215422,1613207,democrat
+2008,New Mexico,472422,346832,democrat
+2008,New York,4645332,2418323,democrat
+2008,North Carolina,2142651,2128474,democrat
+2008,North Dakota,141278,168601,republican
+2008,Ohio,2940044,2677820,democrat
+2008,Oklahoma,502496,960165,republican
+2008,Oregon,1037291,738475,democrat
+2008,Pennsylvania,3276363,2655885,democrat
+2008,Rhode Island,296571,165391,democrat
+2008,South Carolina,862449,1034896,republican
+2008,South Dakota,170924,203054,republican
+2008,Tennessee,1087437,1479178,republican
+2008,Texas,3528633,4479328,republican
+2008,Utah,327670,596030,republican
+2008,Vermont,219262,98974,democrat
+2008,Virginia,1959532,1725005,democrat
+2008,Washington,1750848,1229216,democrat
+2008,West Virginia,303857,397466,republican
+2008,Wisconsin,1677211,1262393,democrat
+2008,Wyoming,82868,164958,republican
+2012,Alabama,795696,1255925,republican
+2012,Alaska,122640,164676,republican
+2012,Arizona,1025232,1233654,republican
+2012,Arkansas,394409,647744,republican
+2012,California,7854285,4839958,democrat
+2012,Colorado,1323101,1185243,democrat
+2012,Connecticut,905083,634892,democrat
+2012,Delaware,242584,165484,democrat
+2012,District of Columbia,267070,21381,democrat
+2012,Florida,4237756,4163447,democrat
+2012,Georgia,1773827,2078688,republican
+2012,Hawaii,306658,121015,democrat
+2012,Idaho,212787,420911,republican
+2012,Illinois,3019512,2135216,democrat
+2012,Indiana,1152887,1420543,republican
+2012,Iowa,822544,730617,democrat
+2012,Kansas,440726,692634,republican
+2012,Kentucky,679370,1087190,republican
+2012,Louisiana,809141,1152262,republican
+2012,Maine,401306,292276,democrat
+2012,Maryland,1677844,971869,democrat
+2012,Massachusetts,1921290,1188314,democrat
+2012,Michigan,2564569,2115256,democrat
+2012,Minnesota,1546167,1320225,democrat
+2012,Mississippi,562949,710746,republican
+2012,Missouri,1223796,1482440,republican
+2012,Montana,201839,267928,republican
+2012,Nebraska,302081,475064,republican
+2012,Nevada,531373,463567,democrat
+2012,New Hampshire,369561,329918,democrat
+2012,New Jersey,2122786,1478088,democrat
+2012,New Mexico,415335,335788,democrat
+2012,New York,4324228,2223397,democrat
+2012,North Carolina,2178391,2270395,republican
+2012,North Dakota,124966,188320,republican
+2012,Ohio,2827621,2661407,democrat
+2012,Oklahoma,443547,891325,republican
+2012,Oregon,970488,754175,democrat
+2012,Pennsylvania,2990274,2680434,democrat
+2012,Rhode Island,279677,157204,democrat
+2012,South Carolina,865941,1071645,republican
+2012,South Dakota,145039,210610,republican
+2012,Tennessee,960709,1462330,republican
+2012,Texas,3308124,4569843,republican
+2012,Utah,251813,740600,republican
+2012,Vermont,199239,92698,democrat
+2012,Virginia,1971820,1822522,democrat
+2012,Washington,1755396,1290670,democrat
+2012,West Virginia,238269,417655,republican
+2012,Wisconsin,1620985,1410966,democrat
+2012,Wyoming,69286,170962,republican
+2016,Alabama,729547,1318255,republican
+2016,Alaska,116454,163387,republican
+2016,Arizona,1161167,1252401,republican
+2016,Arkansas,380494,684872,republican
+2016,California,8753788,4483810,democrat
+2016,Colorado,1338870,1202484,democrat
+2016,Connecticut,897572,673215,democrat
+2016,Delaware,235603,185127,democrat
+2016,District of Columbia,282830,12723,democrat
+2016,Florida,4504975,4617886,republican
+2016,Georgia,1877963,2089104,republican
+2016,Hawaii,266891,128847,democrat
+2016,Idaho,189765,409055,republican
+2016,Illinois,3090729,2146015,democrat
+2016,Indiana,1033126,1557286,republican
+2016,Iowa,653669,800983,republican
+2016,Kansas,427005,671018,republican
+2016,Kentucky,628854,1202971,republican
+2016,Louisiana,780154,1178638,republican
+2016,Maine,357735,335593,democrat
+2016,Maryland,1678006,943428,democrat
+2016,Massachusetts,1995196,1090893,democrat
+2016,Michigan,2268839,2279543,republican
+2016,Minnesota,1367705,1322949,democrat
+2016,Mississippi,485131,700714,republican
+2016,Missouri,1071068,1594511,republican
+2016,Montana,177709,279240,republican
+2016,Nebraska,284494,495961,republican
+2016,Nevada,539260,512058,democrat
+2016,New Hampshire,348526,345790,democrat
+2016,New Jersey,2148278,1601933,democrat
+2016,New Mexico,385234,319667,democrat
+2016,New York,4379789,2527142,democrat
+2016,North Carolina,2189316,2362631,republican
+2016,North Dakota,93758,216794,republican
+2016,Ohio,2394164,2841005,republican
+2016,Oklahoma,420375,949136,republican
+2016,Oregon,1002106,782403,democrat
+2016,Pennsylvania,2926441,2970733,republican
+2016,Rhode Island,252525,180543,democrat
+2016,South Carolina,855373,1155389,republican
+2016,South Dakota,117458,227721,republican
+2016,Tennessee,870695,1522925,republican
+2016,Texas,3877868,4685047,republican
+2016,Utah,310674,515211,republican
+2016,Vermont,178573,95369,democrat
+2016,Virginia,1981473,1769443,democrat
+2016,Washington,1742718,1221747,democrat
+2016,West Virginia,188794,489371,republican
+2016,Wisconsin,1382536,1405284,republican
+2016,Wyoming,55973,174419,republican

@@ -1,0 +1,40 @@
+---
+title: "Test_functions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+ source('/cloud/project/extra/Model/functions/predict_election_win.R')
+ source('/cloud/project/extra/Model/functions/predict_election_plot.R')
+ source('/cloud/project/extra/Model/functions/wrong_preds.R')
+ source('/cloud/project/extra/Model/functions/wrong_preds_spirit.R')
+ source('/cloud/project/extra/Model/functions/predict_election_plot_spirit.R')
+ source('/cloud/project/extra/Model/functions/predict_election_win_spirit.R')
+```
+
+```{r error=FALSE, warning=FALSE, message=FALSE}
+predict_election_win(2016)
+```
+
+```{r error=FALSE, warning=FALSE, message=FALSE}
+predict_election_plot(2016)
+```
+
+```{r error=FALSE, warning=FALSE, message=FALSE}
+wrong_preds(2016)
+```
+
+```{r error=FALSE, warning=FALSE, message=FALSE}
+predict_election_win_spirit(2016)
+```
+
+```{r error=FALSE, warning=FALSE, message=FALSE}
+predict_election_plot_spirit(2016)
+```
+
+```{r error=FALSE, warning=FALSE, message=FALSE}
+wrong_preds_spirit(2016)
+```
+
+
+

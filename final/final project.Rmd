@@ -1,0 +1,265 @@
+---
+title: "Project"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r libraries, echo = FALSE,message=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(usmap)
+library(ggpubr)
+
+```
+
+
+# 1. Data
+
+```{r load_data, echo = FALSE, message=FALSE}
+
+electoral_votes <- read_csv("/cloud/project/final/data/electoral_votes.csv")
+consumption_states <- read_csv("/cloud/project/final/data/model_consumption.csv")
+voting_data <- read_csv("/cloud/project/final/data/voting_data.csv")
+
+```
+
+## Define U.S. geographical regions and colors
+
+```{r regions}
+
+northeast <- c("Connecticut", "Maine", "Massachusetts", "New Hampshire", "New Jersey", "New York", "Pennsylvania", "Rhode Island", "Vermont", "Delaware", "Maryland")
+southeast <- c("Alabama", "Arkansas", "Florida", "Georgia", "Kentucky", "Louisiana", "Mississippi", "North Carolina", "South Carolina", "Tennessee", "Virginia", "West Virginia")
+midwest <- c("Illinois", "Indiana", "Iowa", "Kansas", "Michigan", "Minnesota", "Missouri", "Nebraska", "North Dakota", "Ohio", "South Dakota", "Wisconsin")
+southwest <- c("Arizona", "New Mexico", "Oklahoma", "Texas")
+west <- c("Alaska", "California", "Colorado", "Hawaii", "Idaho", "Montana", "Nevada", "Oregon", "Utah", "Washington", "Wyoming")
+
+partisan_colors <- c("democrat" = "blue3", "republican" = "red3")
+
+```
+
+
+## Merge consumption and voting data
+
+```{r cleaning, message=FALSE}
+
+consumption_states <- full_join(consumption_states, voting_data) %>%
+  filter(!(state %in% c("District Of Columbia", "District of Columbia", "Us Total", "South Region", "Northeast Region", "Midwest Region", "West Region"))) %>%
+  arrange(state, year)
+
+# Split
+
+split_1 <- consumption_states %>%
+  filter(year == 2016)
+
+split_2 <- consumption_states %>%
+  filter(year != 2016)
+
+for (n in 1:nrow(split_2)) {
+  if ((n-1)%%4 == 0) {
+  split_2$office[n] -> split_2$office[n+3]
+  split_2$office[n] -> split_2$office[n+2]
+  split_2$office[n] -> split_2$office[n+1]
+  }
+}
+
+consumption_states <- full_join(split_1, split_2) %>%
+  filter(year != 1976) %>%
+  select(!democrat_votes & !republican_votes)
+
+consumption_states["office"] <- lapply(consumption_states["office"] , factor)
+
+consumption_states <- consumption_states %>%
+  mutate(region = case_when(
+    state %in% northeast ~ "northeast",
+    state %in% southeast ~ "southeast",
+    state %in% midwest ~ "midwest",
+    state %in% southwest ~ "southwest",
+    state %in% west ~ "west"
+  ))
+
+```
+
+# 2. Trends for alcohol consumption
+
+```{r consumption_evolution ,message = FALSE, echo = FALSE, fig.width=8}
+
+consumption_states %>%
+  group_by(year) %>%
+  summarise(
+    total = mean(ethanol_all_drinks_gallons_per_capita),
+    beer = mean(beer_per_capita),
+    wine = mean(wine_per_capita),
+    spirit = mean(spirit_per_capita)) %>%
+    pivot_longer(c(total, beer, wine, spirit), "alcohols") %>%
+  mutate(
+    alcohols = factor(alcohols),
+    alcohols = fct_relevel(alcohols, "total", "beer", "spirit", "wine")) %>%
+  ggplot(aes(x = year, y = value, color = alcohols)) +
+  geom_line()+
+  labs( title = "Average ethanol consumption per capita",
+        subtitle = "by type of alcohol consumed",
+        x = "Year",
+        y = "Ethanol gallons",
+        colour = "Type of alcohol") +
+  ylim(0.25, 2.9) +
+  theme_minimal() +
+  scale_color_viridis_d()
+
+```
+
+## 3. Idk some other visualisation
+
+## 4. Modelling
+
+### First model, fitting all data
+
+```{r split_data}
+# Drop out co linear variables
+consumption_states_model <- consumption_states %>%
+  select(state, beer_per_capita, wine_per_capita, spirit_per_capita, office)
+
+# Split data into training and testing
+set.seed(7637)
+consumption_split <- initial_split(consumption_states_model)
+consumption_train <- training(consumption_split)
+consumption_test <- testing(consumption_split)
+
+```
+
+
+```{r model, echo = FALSE, message = FALSE }
+
+# Create a recipe
+
+election_rec <- recipe(office ~ ., data = consumption_test) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+# Define engine
+
+election_spec <- logistic_reg() %>%
+  set_engine("glm")
+
+# Work-flow
+
+election_wflow <- workflow() %>%
+  add_model(election_spec) %>%
+  add_recipe(election_rec)
+
+```
+
+```{r cross_validation, echo = FALSE, message = FALSE }
+
+set.seed(2342)
+election_folds <- vfold_cv(consumption_train, v = 5)
+
+election_fit_rs <- election_wflow %>%
+  fit_resamples(election_folds)
+
+collect_metrics(election_fit_rs, summarize = FALSE)
+collect_metrics(election_fit_rs)
+
+```
+
+```{r roc_curve_1, echo = FALSE, message = FALSE }
+
+election_fit <- election_wflow %>%
+  fit(consumption_train)
+
+election_pred <- predict(election_fit, consumption_test, type = "prob") %>%
+  bind_cols(consumption_test %>% select(office))
+
+```
+
+### ROC Curve and number of correct predictions
+
+```{r roc_curve_plot}
+election_pred %>%
+  roc_curve(
+    truth = office,
+    .pred_democrat) %>%
+  autoplot()
+
+election_pred %>%
+  mutate(
+    prediction = ifelse(.pred_democrat > .pred_republican, "democrat", "republican")
+  ) %>%
+  count(prediction == office)
+```
+
+### Predicting 2012 election
+
+Map of states predicted correctly. The figure below indicates the number of states predicted correctly
+
+```{r predicting_2012, echo = FALSE, message = FALSE, fig.width = 10}
+
+test_2012 <- consumption_states %>% filter(year == 2012) %>% select(state, beer_per_capita, wine_per_capita, spirit_per_capita, office)
+train_2012 <- consumption_states %>% filter(year < 2012) %>% select(state, beer_per_capita, wine_per_capita, spirit_per_capita, office)
+
+election_rec_2012 <- recipe(office ~ ., data = test_2012) %>%
+  step_dummy(all_nominal(), -all_outcomes())
+
+election_2012_wflow <- workflow() %>%
+  add_model(election_spec) %>%
+  add_recipe(election_rec_2012)
+
+election_2012_fit <- election_2012_wflow %>%
+  fit(train_2012)
+
+election_2012_pred <- predict(election_2012_fit, test_2012, type = "prob") %>%
+  bind_cols(test_2012 %>% select(office, state))
+
+plot_2012 <- election_2012_pred %>%
+  mutate( prediction = ifelse(.pred_democrat > .pred_republican, "democrat", "republican")) %>%
+  filter(office == prediction)
+
+plot_usmap(data = plot_2012, regions = "states", values = "office", color = "black") +
+      labs( title = "States Predicted Correctly",
+          subtitle = "by winning party",
+          caption = "States coloured white were predicted incorrectly",
+          fill = "office") +
+    theme(
+      legend.position = "right") +
+    scale_fill_manual(values = partisan_colors)
+
+plot_2012 %>%
+  count(office == prediction)
+
+```
+
+Model's general election result
+
+```{r 2012_election_result, echo = FALSE}
+
+full_join(election_2012_pred, electoral_votes) %>%
+  mutate( prediction = ifelse(.pred_democrat > .pred_republican, "democrat", "republican")) %>%
+  filter(state != "District Of Columbia") %>%
+  select(state, prediction, votes) %>%
+  group_by(prediction) %>%
+  summarise(total_votes = sum(votes))
+
+```
+
+The actual results were:
+Democrat - 332
+Republican - 206
+
+### Assessing accuracy
+
+```{r 2012_roc_curve}
+
+election_2012_pred %>%
+  roc_curve(
+    truth = office,
+    .pred_democrat) %>%
+  autoplot()
+
+election_2012_pred %>%
+  roc_auc(
+    truth = office,
+    .pred_democrat)
+
+```
+
+
+### Second model, only using spirit

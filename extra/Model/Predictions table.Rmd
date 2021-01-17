@@ -1,0 +1,131 @@
+---
+title: "Untitled"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r library}
+library(tidyverse)
+library(tidymodels)
+library(knitr)
+library(usmap)
+library(xaringanthemer)
+library(showtext)
+```
+
+
+```{r load_data, include=FALSE}
+
+voting_data <- read_csv("/cloud/project/data/clean_presentation_data/voting_data.csv")
+election_pred <- read_csv("/cloud/project/data/clean_presentation_data/election_pred.csv")
+model_data_train <- read_csv("/cloud/project/data/clean_presentation_data/model_data_train.csv")
+model_data_test <- read_csv("/cloud/project/data/clean_presentation_data/model_data_test.csv")
+electoral_votes <- read_csv("/cloud/project/data/clean_presentation_data/electoral_votes.csv")
+
+```
+
+```{r}
+model_data <- 
+  full_join(model_data_test, model_data_train) %>%
+  arrange(year)
+
+```
+
+
+```{r function}
+
+predict_year <- function(n) 
+  {
+    data_test = model_data %>% filter(year == n)
+    data_train = model_data %>% filter(year < n)
+    
+    data_train["office"] <- lapply(data_train["office"] , factor)
+    
+    model = logistic_reg() %>%
+      set_engine("glm") %>%
+      fit(office ~ ., data = data_train, family = "binomial")
+    
+    prediction <- predict(model, data_test, type = "prob") %>%
+      bind_cols(model_data_test) %>%
+        mutate(predicted = ifelse(.pred_democrat > .pred_republican, "democrat", "republican"))
+    
+    counting_shit <- prediction %>%
+      count(office == predicted) 
+    
+    fuck <- electoral_votes %>%
+      filter(state != "District Of Columbia") %>%
+      mutate(predicted = prediction$predicted) %>%
+      group_by(predicted) %>%
+      summarise(total_votes = sum(votes)) %>%
+      pivot_wider(names_from = predicted, values_from = total_votes)
+    
+      final_fuck <<- bind_cols(n, counting_shit$n[2], fuck) %>%
+      mutate(predicted = ifelse(democrat > republican, "democrat", "republican"))
+    
+    colnames(final_fuck) <<- c("year", "correct_states", "democrat_votes", "republican_votes", "prediction")
+    
+    final_fuck
+    
+    
+  }
+
+test <- full_join(predict_year(2016), predict_year(2012))
+test <- full_join(test, predict_year(2008))
+test <- full_join(test, predict_year(2004))
+
+df <- data.frame(year = c(2016, 2012, 2008, 2004),
+                 winner = c("republican", "democrat", "democrat", "republican"))
+
+test <- full_join(test, df)
+
+write_csv(test, "/cloud/project/data/clean_presentation_data/predicted_elections.csv")
+```
+
+```{r function2}
+
+predict_year_improv <- function(n) 
+  {
+    data_test = model_data %>% filter(year == n)
+    data_train = model_data %>% filter(year < n)
+    
+    data_train["office"] <- lapply(data_train["office"] , factor)
+    
+    model = logistic_reg() %>%
+      set_engine("glm") %>%
+      fit(office ~ . - wine_per_capita - beer_per_capita, data = data_train, family = "binomial")
+    
+    prediction <- predict(model, data_test, type = "prob") %>%
+      bind_cols(model_data_test) %>%
+        mutate(predicted = ifelse(.pred_democrat > .pred_republican, "democrat", "republican"))
+    
+    counting_shit <- prediction %>%
+      count(office == predicted) 
+    
+    fuck <- electoral_votes %>%
+      filter(state != "District Of Columbia") %>%
+      mutate(predicted = prediction$predicted) %>%
+      group_by(predicted) %>%
+      summarise(total_votes = sum(votes)) %>%
+      pivot_wider(names_from = predicted, values_from = total_votes)
+    
+      final_fuck <<- bind_cols(n, counting_shit$n[2], fuck) %>%
+      mutate(predicted = ifelse(democrat > republican, "democrat", "republican"))
+    
+    colnames(final_fuck) <<- c("year", "correct_states", "democrat_votes", "republican_votes", "prediction")
+    
+    final_fuck
+  }
+
+test <- full_join(predict_year_improv(2016), predict_year_improv(2012))
+test <- full_join(test, predict_year_improv(2008))
+test <- full_join(test, predict_year_improv(2004))
+
+df <- data.frame(year = c(2016, 2012, 2008, 2004),
+                 winner = c("republican", "democrat", "democrat", "republican"))
+
+test <- full_join(test, df)
+
+write_csv(test, "/cloud/project/data/clean_presentation_data/predicted_elections_improv.csv")
+```

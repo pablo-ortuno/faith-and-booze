@@ -1,0 +1,296 @@
+---
+title: "Booze and the Faith of America"
+subtitle: "Alcohol and voting trends"
+author: "Greyfriar's Bobby <br> Lucas Amar, Pablo Ortuno, Akshaj Pilla, Ata Tuna"
+institute: "Merchant logo The university of Edinburgh"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-packages, include = FALSE, message = FALSE}
+# Add any additional packages you need to this chunk
+
+install.packages("huxtable")
+
+library(tidyverse)
+library(tidymodels)
+library(knitr)
+library(usmap)
+library(xaringanthemer)
+library(showtext)
+library(huxtable) 
+
+ source('/cloud/project/extra/Model/functions/predict_election_win.R')
+ source('/cloud/project/extra/Model/functions/predict_election_plot.R')
+ source('/cloud/project/extra/Model/functions/wrong_preds.R')
+ source('/cloud/project/extra/Model/functions/wrong_preds_spirit.R')
+ source('/cloud/project/extra/Model/functions/predict_election_plot_spirit.R')
+ source('/cloud/project/extra/Model/functions/predict_election_win_spirit.R')
+
+```
+
+```{r setup, include=FALSE}
+# For better figure resolution
+knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+style_mono_accent(
+  base_color = "#43418A",
+  header_font_google = google_font("Padauk"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+```{r load-data, include=FALSE}
+# Load your data here
+voting_data <- read_csv("/cloud/project/data/clean_presentation_data/voting_data.csv")
+election_pred <- read_csv("/cloud/project/data/clean_presentation_data/election_pred.csv")
+model_data_train <- read_csv("/cloud/project/data/clean_presentation_data/model_data_train.csv")
+model_data_test <- read_csv("/cloud/project/data/clean_presentation_data/model_data_test.csv")
+electoral_votes <- read_csv("/cloud/project/data/clean_presentation_data/electoral_votes.csv")
+predicted_elections <- read_csv("/cloud/project/data/clean_presentation_data/predicted_elections.csv")
+predicted_elections_improv <- read_csv("/cloud/project/data/clean_presentation_data/predicted_elections_improv.csv")
+
+model_data_train["office"] <- lapply(model_data_train["office"] , factor)
+```
+---
+
+class: center, middle 
+
+##Booze and the Faith of America
+
+### Can alcohol consumption predict U.S. general election results?
+
+Greyfriar's Bobby: Pablo Ortuno, Akshaj Pilla, Ata Tuna,  Lucas Amar
+
+The University of Edinburgh
+
+03/12/2020
+
+---
+# Data
+
+### Building a data frame
+
+
+```{r data_2, echo = FALSE}
+model_data_train %>%
+  print (n = 6)
+```
+
+---
+
+
+# Model
+
+```{r preliminary_model_2016}
+model_election <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(office ~ ., data = model_data_train, family = "binomial")
+```
+
+```{r model_2, echo = FALSE}
+tidy(model_election) %>%
+  print(10)
+```
+
+---
+
+## Model's results
+
+```{r preliminary_2016_prediction, echo = FALSE, message=FALSE, fig.height="80%"}
+
+predict_election_plot(2016)
+
+```
+
+---
+
+## Interpreting results
+
+```{r interpretation_1, echo = FALSE, message = FALSE}
+wrong_preds(2016)
+```
+  
+Our model correctly predicted 34 states and had a 68% accuracy
+
+```{r intepretation_2, echo = FALSE, message = FALSE}
+electoral_votes %>%
+  filter(state != "District Of Columbia") %>%
+  mutate(predicted = election_pred$predicted) %>%
+  group_by(predicted) %>%
+  summarise(total_votes = sum(votes))
+
+```
+
+In 2016, the republican party won the election with 306 electoral votes. 
+The democrat party only got 232 electoral votes
+---
+
+## Improvements
+
+```{r improvement_1, echo = FALSE}
+
+model_election_improv <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(office ~ . - beer_per_capita - wine_per_capita, data = model_data_train, family = "binomial")
+
+election_pred_improv <- predict(model_election_improv, model_data_test, type = "prob") %>%
+  bind_cols(model_data_test) %>%
+  mutate(predicted = ifelse(.pred_democrat > .pred_republican, "democrat", "republican"))
+```
+
+
+```{r improv_12, echo = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+predict_election_plot_spirit(2016)
+```
+
+
+---
+
+## Improvements
+
+```{r improv_2, echo = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
+wrong_preds_spirit(2016)
+
+```
+
+Our model predicted correctly 40 states, and yields an 80 % accuracy
+
+```{r improv_3, echo = FALSE, message = FALSE}
+electoral_votes %>%
+  filter(state != "District Of Columbia") %>%
+  mutate(predicted = election_pred_improv$predicted) %>%
+  group_by(predicted) %>%
+  summarise(total_votes = sum(votes))
+```
+
+It still fails to predict correctly the overall result
+---
+## Accuracy
+
+First model
+```{r accuracy_1, echo = FALSE}
+kable(predicted_elections)
+
+```
+
+Improved model
+``` {r accuracy_2, echo = FALSE}
+kable(predicted_elections_improv)
+```
+
+
+---
+## Discussion
+
+
+```{r discussion_1, message = FALSE, echo = FALSE, out.height="50%"}
+model_data_train %>%
+  group_by(year) %>%
+  summarise(drinking_avg = sum(beer_per_capita,
+                               wine_per_capita, 
+                               spirit_per_capita) / 50) %>%
+  ggplot(aes(x = year,
+             y = drinking_avg)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Average yearly amount of alcohol drank per person in the U.S",
+       subtitle = "per year",
+       x = "Year",
+       y = "Ethanol gallons")
+  
+```
+---
+## Discussion
+
+```{r discussion_4, echo = FALSE,out.width="80%"}
+plot_usmap(data = election_pred, 
+           regions = "states", 
+           values = "beer_per_capita", 
+           color = "black") +
+  labs( title = "Amount of beer drank per person",
+        subtitle = "by state, in 2016") +
+  theme( legend.position = "right") +
+  scale_fill_continuous(low = "white", 
+                        high = "black", 
+                        name = "Ethanol gallons", 
+                        label = scales::comma)
+```
+
+---
+## Discussion
+```{r discusion_2, echo = FALSE, out.width="80%"}
+
+election_pred %>%
+  ggplot(aes(x = state, y = beer_per_capita)) +
+  geom_point() +
+  theme_minimal() +
+  theme(axis.text.x = element_blank() ) +
+  facet_wrap(~office) +
+  labs( title = "Average beer drank per person", 
+        subtitle = "by states in 2016", 
+        x = "", 
+        y = "Beer gallons")
+```
+---
+## Discussion
+
+Mean amount of ethanol drank per person on 2016, by state's political affiliation
+
+```{r discussion_3, message = FALSE, echo = FALSE}
+election_pred %>%
+  group_by(office) %>%
+  summarise(beer_mean = mean(beer_per_capita), wine_mean = mean(wine_per_capita), spirit_mean = mean(spirit_per_capita))
+```
+---
+
+
+## Conclusion
+
+- We achieved a 68% success rate (When using all types of alcohol together)
+
+  - Through our analyses we saw that total alcohol consumption doesn't really vary from state to state
+  
+    - Makes it complicated to find a relationship between political affiliation and drinking
+
+  - Through further investigation we therefore looked at the consumption of the other alcohols we had available
+      
+      - By using spirit only we got our success rate up to 80%
+        
+
+---
+
+
+## Conclusion
+
+-Overall:
+  - Not able to establish a strong correlation, and even if we were... correlation doesn't imply causation
+  
+  - Know how to make a logistic regression and manipulate data much more efficiently and with less errors than before
+  
+  - Considering a possible relationship between alcohol consumption and political affiliation arises questions, will a correlation arise when looking at:
+  
+    - Alcohol brand?
+    
+    - Alcoholism?
+    
+    - Liver failure due to alcohol?
+    
+    - Etc.
+
+---

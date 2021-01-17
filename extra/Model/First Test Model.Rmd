@@ -1,0 +1,215 @@
+---
+title: "All together now"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load_library, message = FALSE}
+library(tidyverse)
+library(broom)
+library(openintro)
+library(usmap)
+library(tidymodels)
+library(glue)
+library(rlang)
+```
+
+
+```{r load_data, message = FALSE}
+beer_states <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-31/beer_states.csv')
+# Voting data
+voter_data <- read_rds("/cloud/project/data/1976-2016-president.RData")
+
+#Alcohol consumption per capita
+consumption_per_capita <- read_csv("/cloud/project/data/apparent_per_capita_alcohol_consumption_1977_2018.txt")
+
+electoral_votes <- read_csv("/cloud/project/data/electoral_votes.csv")
+```
+
+### Data wrangling
+
+This chunk cleans the voting data frame into a more useful one.
+
+```{r clean_voter_data}
+
+# Manually merge some conflicting cells
+# In some states there were two entries for the same candidate, resulting in an undesired outcome when pivoting the data
+
+voter_data[(3536),] <- voter_data[(3536),] %>%
+    mutate(candidatevotes = 1677928 + 78)
+voter_data[(3537),] <- voter_data[(3537),] %>%
+    mutate(candidatevotes = 943169 + 259)
+
+# Manually rename more conflicting cells
+# In Minnesota, for some years, the democrat party was entered as "democratic". Our algorithm didn't pick up the string and resulted in NA's
+
+voter_data[(2211),] <- voter_data[(2211),] %>%
+    mutate(party = "democrat")
+voter_data[(2560),] <- voter_data[(2560),] %>%
+    mutate(party = "democrat")
+voter_data[(3226),] <- voter_data[(3226),] %>%
+    mutate(party = "democrat")
+
+# Eliminate conflicting rows
+
+voter_data <- voter_data[-c(2545,3415,3543,3544),]
+
+```
+
+Once the conflicts have been fixed, we're ready to build a data frame with voting data that will be friendly with our model.
+
+```{r build_clean_voter_data}
+voting_data <- voter_data %>%
+  # Choose only the two main parties
+  filter (party %in% c("democrat", "republican")) %>% 
+  # Select the only variables we're interested in. Year, state, party, and how many votes the party received
+  select(year, state, party, candidatevotes) %>% 
+  pivot_wider(names_from = party, values_from = candidatevotes) %>%
+  rename(democrat_votes = democrat, republican_votes = republican) %>%
+  # Create a new variable that tells us who won the election in that state
+  mutate(office = ifelse(democrat_votes > republican_votes, "democrat", "republican")) %>%
+  # Filter so voting data is consistent with the rest of our data
+  filter(year >= 1976)
+
+glimpse(voting_data)
+```
+
+Now we are ready to build a data frame to feed into our model
+
+```{r model_dataframe, message = FALSE}
+### Build consumption data frame
+model_consumption <- consumption_per_capita %>%
+  # Chose only years previous to 2016
+  filter(year <= 2016) %>%
+  # Clean names
+  mutate(state = str_to_title (state)) %>%
+  rename(
+    beer_per_capita = ethanol_beer_gallons_per_capita,
+    wine_per_capita = ethanol_wine_gallons_per_capita,
+    spirit_per_capita = ethanol_spirit_gallons_per_capita)
+
+### Build model data frame by joining consumption and votes
+
+model_data <- full_join(model_consumption, voting_data) %>%
+  # Eliminate regions and DC, which doesn't have voter representation.
+  filter(!(state %in% c("District Of Columbia", "District of Columbia", "Us Total", "South Region", "Northeast Region", "Midwest Region", "West Region"))) %>%
+  select(c("year", "state", "beer_per_capita", "wine_per_capita", "spirit_per_capita", "office")) %>%
+  arrange(state, year)
+
+glimpse(model_data)
+
+### Split data into train and test
+
+model_data_test <- model_data %>%
+  filter(year == 2016)
+
+model_data_train <- model_data %>%
+  filter(year < 2016)
+
+# Apply a simple "for" loop that will "fill in" what party that state voted for in the last four years.
+
+for (n in 1:nrow(model_data_train)) {
+  if ((n-1)%%4 == 0) {
+  model_data_train$office[n] -> model_data_train$office[n+3]
+  model_data_train$office[n] -> model_data_train$office[n+2]
+  model_data_train$office[n] -> model_data_train$office[n+1]
+  }
+}
+
+# Drop out the year 1976. It was only being used to fill in "office" values.
+
+model_data_train <- model_data_train %>%
+  filter(year != 1976)
+
+# Since we want to predict "office", we have to convert it into a factor.
+
+model_data_train["office"] <- lapply(model_data_train["office"] , factor)
+
+glimpse(model_data_train)
+  
+```
+
+### Modelling
+
+We will fit a logistic regression model using our training data 
+
+```{r fitting_model}
+
+model_election <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(office ~ ., data = model_data_train, family = "binomial")
+
+tidy(model_election)
+```
+
+We will now predict each states winner in the 2016 election. For this we will create a data frame where we compare our predictions to the real values.
+
+```{r testing_model}
+
+election_pred <- predict(model_election, model_data_test, type = "prob") %>%
+  bind_cols(model_data_test) %>%
+  mutate(predicted = ifelse(.pred_democrat > .pred_republican, "democrat", "republican")) %>%
+  print(n = 10)
+
+```
+
+The following plot shows what states our model predicted right. The NA's are the one's the model guessed wrong.
+
+The figure below the plot shows 34 states were guessed correctly and 16 were guessed wrong. This is a ```r (1 - (abs(34-50)/50))*100``` percentage of accuracy
+
+```{r plotting_compared_results}
+
+partisan_colors <- c("democrat" = "blue3", "republican" = "red3", "null" = "black")
+
+plot_usmap(data = (election_pred %>% filter(predicted == office)), regions = "states", values = "office", color = "black") +
+  labs( title = "Election winners predicted correctly",
+        subtitle = "by state",
+        caption = "States coloured white were predicted incorrectly",
+        fill = "Party") +
+  theme(
+    legend.position = "right") +
+  scale_fill_manual(values = partisan_colors)
+
+
+election_pred %>%
+  count(office == predicted)
+
+```
+
+```{r write_csv}
+
+write_csv(election_pred, "/cloud/project/data/clean_presentation_data/election_pred.csv")
+write_csv(model_data_train, "/cloud/project/data/clean_presentation_data/model_data_train.csv")
+write_csv(voting_data, "/cloud/project/data/clean_presentation_data/voting_data.csv")
+write_csv(model_consumption, "/cloud/project/data/clean_presentation_data/model_consumption.csv")
+write_csv(model_data_test, "/cloud/project/data/clean_presentation_data/model_data_test.csv")
+
+```
+
+```{r find-winning-party}
+election_out <- full_join(election_pred, electoral_votes) %>%
+  filter(state != "District Of Columbia")
+
+outcome <- election_out %>% 
+  group_by(predicted) %>%
+  summarise(total_votes = sum (votes))
+
+winner <- outcome %>%
+  mutate(max = max(total_votes)) %>%
+  filter(total_votes == max)
+
+winner$predicted
+```
+
+```{r}
+
+model_election_aug <- augment(model_election$fit)
+
+ggplot(model_election_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.1) +
+  theme_minimal() +
+  labs( y = "Residuals", x = "Predicted factor")
+
+```
+

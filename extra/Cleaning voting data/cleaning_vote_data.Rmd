@@ -1,0 +1,98 @@
+---
+title: "Untitled"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(broom)
+library(here)
+library(stringr)
+library(openintro)
+library(usmap)
+```
+
+```{r loading_data}
+# Voting data
+voter_data <- read_rds("/cloud/project/data/1976-2016-president.RData")
+write_rds(voter_data, "/cloud/project/data/voter_data.rds")
+```
+
+
+### CLEANING VOTING DATA
+
+Preliminary cleaning
+```{r clean_voter_data}
+voter_data %>%
+  filter (party %in% c("democrat", "republican")) %>% 
+  select(year, state, party, candidatevotes) %>% 
+  pivot_wider(names_from = party, values_from = candidatevotes) %>%
+  rename(democrat_votes = democrat, republican_votes = republican)
+```
+This outputs votes as a list. 
+This must be because two different rows have a shared value.
+Lets examine and find where the problem is
+```{r examining_voting_issues}
+voter_data %>%
+  filter (party %in% c("democrat", "republican")) %>% 
+  select(year, state, party, candidatevotes) %>% 
+  pivot_wider(names_from = party, values_from = candidatevotes, values_fn = length) %>%
+  #Adding the values_fn = length argument is going to tell us wich entries of the list have a vector (its length will not be = 1)
+  filter(
+    democrat != 1 | republican != 1
+  )
+```
+So the issues arise in 2004 Maryland, where two rows contain "democrat", 2016 Arizona, where two rows contain "democrat", and 2016 Maryland, where there are two different rows for each party.
+Lets see exactly where the error arises from
+```{r voting_issue_1}
+voter_data %>%
+  select(year, state, candidate, party, candidatevotes) %>%
+  filter(year == 2004, state == "Maryland", party == "democrat")
+```
+The problem here is two different candidates. Fixed by erasing row 2545
+
+```{r voting_issue_2}
+voter_data %>%
+  select(year, state, candidate, party, candidatevotes) %>%
+  filter(year == 2016, state == "Arizona", party == "democrat")
+```
+The problem here is, again, two different candidates for the same part
+```{r voting_issue_3}
+voter_data %>%
+  select(year, state, candidate, party, candidatevotes) %>%
+  filter(year == 2016, state == "Maryland", party == "democrat" | party == "republican")
+
+```
+
+So we'll solve this issues by erasing rows 2415, 3415, and adding the corresponding values for rows 3565 and 3544, and 3537 and 3543.
+Since we know exactly what values we're dealing with we'll just rewrite the values and delete two rows
+
+```{r solved_voting_issues}
+
+voter_data[(3536),] <- voter_data[(3536),] %>%
+    mutate(candidatevotes = 1677928 + 78)
+
+voter_data[(3537),] <- voter_data[(3537),] %>%
+    mutate(candidatevotes = 943169 + 259)
+  
+voter_data <- voter_data[-c(2545,3415,3543,3544),]
+```
+
+Now we can correctly apply our cleaning and add a "winner" variable
+
+```{r final_voting_cleaning}
+clean_votes <- voter_data %>%
+  filter (party %in% c("democrat", "republican")) %>% 
+  select(year, state, party, candidatevotes) %>% 
+  pivot_wider(names_from = party, values_from = candidatevotes) %>%
+  rename(democrat_votes = democrat, republican_votes = republican) %>%
+  mutate(winner = ifelse(democrat_votes > republican_votes, "democrat", "republican")) # Note there are no entries where the number of votes are equal 
+
+clean_votes
+```
+
+As expected, class variables are as desired
+
+
